@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="static/logo.png" alt="Local Transfer: OneDrive to Google Drive" width="420" />
-</p>
-
 # Local Transfer: OneDrive to Google Drive
 
 Language / Idioma: **English** | [Portugues](README.pt.md)
