@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+  <a href="#main-content" class="skip-link" data-i18n="skip_link">Pular para o conteúdo principal</a>
 
   <header class="site-header" role="banner">
     <div class="container header-inner">
@@ -25,17 +25,40 @@
         />
         <div class="brand-text">
           <h1 class="sr-only">Local Transfer</h1>
-          <p class="subtitle">
+          <p class="subtitle" data-i18n-html="subtitle">
             Compara as duas pastas <strong>sem disparar downloads no OneDrive</strong>, identifica o que já está no disco local e sugere a melhor ordem de transferência por lotes.
           </p>
         </div>
       </div>
-      <div class="header-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <div class="header-actions" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <div class="lang-switcher" role="group" aria-label="Idioma da interface / Interface language">
+          <button
+            type="button"
+            id="lang-pt-btn"
+            class="lang-btn active"
+            data-lang="pt"
+            aria-pressed="true"
+            aria-label="Português"
+          >
+            PT
+          </button>
+          <button
+            type="button"
+            id="lang-en-btn"
+            class="lang-btn"
+            data-lang="en"
+            aria-pressed="false"
+            aria-label="English"
+          >
+            EN
+          </button>
+        </div>
         <a
           id="export-audit-btn"
           href="/api/export/audit"
           class="btn btn-secondary"
           download="auditoria_transferencias_sha256.csv"
+          data-i18n="export_audit_btn"
         >
           Baixar Log de Auditoria (SHA-256)
         </a>
@@ -44,6 +67,7 @@
           href="/api/export/csv"
           class="btn btn-secondary hidden"
           download="plano_transferencia_onedrive_gdrive.csv"
+          data-i18n="export_csv_btn"
         >
           Exportar Plano (CSV)
         </a>
