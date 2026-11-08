@@ -1,0 +1,11 @@
+# Arquivos gerados localmente durante o uso (contem nomes de pastas e arquivos do usuario)
+ultimo_relatorio_cache.json
+ultimo_relatorio_cache.tmp
+logs/
+*.csv
+*.jsonl
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+
