@@ -26,6 +26,7 @@ import subprocess
 import sys
 import threading
 import time
+import unicodedata
 import urllib.parse
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -730,6 +731,10 @@ def run_comparison_job(source_dir: str, dest_dir: str, ignore_system: bool = Tru
         extra_dest_files: List[Dict[str, Any]] = []
         folder_stats: Dict[str, Dict[str, Any]] = {}
 
+        dst_norm_map: Dict[str, Dict[str, Any]] = {
+            unicodedata.normalize("NFC", k).lower(): v for k, v in dst_map.items()
+        }
+
         for rel_path, src_info in src_map.items():
             folder = src_info["folder"]
             if folder not in folder_stats:
@@ -751,9 +756,15 @@ def run_comparison_job(source_dir: str, dest_dir: str, ignore_system: bool = Tru
 
             dst_info = dst_map.get(rel_path)
             if dst_info is None:
+                norm_key = unicodedata.normalize("NFC", rel_path).lower()
+                dst_info = dst_norm_map.get(norm_key)
+            if dst_info is None:
                 safe_rel = safe_gdrive_rel_path(rel_path)
                 if safe_rel != rel_path:
                     dst_info = dst_map.get(safe_rel)
+                    if dst_info is None:
+                        safe_norm_key = unicodedata.normalize("NFC", safe_rel).lower()
+                        dst_info = dst_norm_map.get(safe_norm_key)
 
             if dst_info is None:
                 status = "missing"
