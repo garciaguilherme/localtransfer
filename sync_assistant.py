@@ -765,6 +765,15 @@ def run_comparison_job(source_dir: str, dest_dir: str, ignore_system: bool = Tru
                     if dst_info is None:
                         safe_norm_key = unicodedata.normalize("NFC", safe_rel).lower()
                         dst_info = dst_norm_map.get(safe_norm_key)
+            if dst_info is None and not os.path.splitext(src_info["name"])[1]:
+                # O Google Drive para Desktop adiciona automaticamente a extensão (ex.: .pdf)
+                # em arquivos sem extensão após inspecionar o cabeçalho MIME do arquivo.
+                base_norm = unicodedata.normalize("NFC", rel_path).lower()
+                for auto_ext in (".pdf", ".docx", ".xlsx", ".pptx", ".jpg", ".png", ".txt", ".zip"):
+                    cand = dst_norm_map.get(base_norm + auto_ext)
+                    if cand is not None and cand["size"] == src_info["size"]:
+                        dst_info = cand
+                        break
 
             if dst_info is None:
                 status = "missing"
